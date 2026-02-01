@@ -94,6 +94,9 @@
       - 10.42.0.0/16
       - 10.43.0.0/16
     ignore_errors: yes
+    become: true
+
+    
   - name: Add k3s interfaces to trusted zone
     ansible.posix.firewalld:
       zone: trusted
@@ -104,6 +107,8 @@
       - cni0
       - flannel.1
     ignore_errors: yes
+    become: true
+
   - name: Enable masquerade
     ansible.posix.firewalld:
       masquerade: yes
@@ -140,7 +145,7 @@
       path: "{{ ansible_env.HOME}}/.bashrc"
       line: 'export KUBECONFIG=/etc/rancher/k3s/k3s.yaml'
       state: present
-    become: false
+    become: true
     ignore_errors: yes
   # Deploy Grafana Stack
   - name: Add Grafana helm repo
