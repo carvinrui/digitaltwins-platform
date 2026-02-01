@@ -4,10 +4,18 @@
   hosts: portal drai_mp drai_cc
   become: true
   vars:
-    observability_dir: "./observability"
+    observability_dir: "/home/rche591/digitaltwins-platform/buildout/dev"
 
 
   tasks:
+  - name: Show current working directory
+    ansible.builtin.shell: pwd
+    register: current_dir
+
+  - name: Print current directory
+    ansible.builtin.debug:
+      msg: "Current directory is: {{ current_dir.stdout }}"
+
   - name: Download k3s installation script
     ansible.builtin.get_url:
       url: https://get.k3s.io
