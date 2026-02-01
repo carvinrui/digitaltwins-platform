@@ -41,19 +41,19 @@
   # Install k9s
   - name: Check if k9s is already installed
     ansible.builtin.stat:
-      path: "{{ ansible_user_home }}/.local/bin/k9s"
+      path: "{{ ansible_env.HOME }}/.local/bin/k9s"
     register: k9s_binary
     ignore_errors: yes
   - name: Install k9s via webinstall
     ansible.builtin.shell: curl -sS https://webinstall.dev/k9s | bash
     args:
-      creates: "{{ ansible_user_home }}/.local/bin/k9s"
+      creates: "{{ ansible_env.HOME}}/.local/bin/k9s"
     become: false
     when: not k9s_binary.stat.exists
     ignore_errors: yes
   - name: Add k9s to PATH in .bashrc
     ansible.builtin.lineinfile:
-      path: "{{ ansible_user_home }}/.bashrc"
+      path: "{{ ansible_env.HOME}}/.bashrc"
       line: 'export PATH=$PATH:$HOME/.local/bin'
       state: present
     become: false
@@ -132,7 +132,7 @@
   # Set KUBECONFIG environment
   - name: Set KUBECONFIG environment variable
     ansible.builtin.lineinfile:
-      path: "{{ ansible_user_home }}/.bashrc"
+      path: "{{ ansible_env.HOME}}/.bashrc"
       line: 'export KUBECONFIG=/etc/rancher/k3s/k3s.yaml'
       state: present
     become: false
