@@ -10,6 +10,7 @@
       dest: /tmp/k3s-install.sh
       mode: '0755'
     ignore_errors: yes
+    become: true
     register: k3s_download
   - name: Check if k3s is already installed
     ansible.builtin.stat:
@@ -60,6 +61,7 @@
     ansible.builtin.file:
       path: "/usr/local/bin/k9s"
       mode: "0755"
+
   # Install Helm
   - name: Check if helm is already installed
     ansible.builtin.stat:
