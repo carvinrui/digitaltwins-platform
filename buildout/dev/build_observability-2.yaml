@@ -1,4 +1,9 @@
   # Install k3s
+- name: VM setup(kubernetes,observability)
+  gather_facts: false
+  hosts: portal drai_mp drai_cc
+
+  tasks:
   - name: Download k3s installation script
     ansible.builtin.get_url:
       url: https://get.k3s.io
