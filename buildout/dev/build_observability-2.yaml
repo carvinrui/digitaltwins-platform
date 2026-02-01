@@ -55,6 +55,7 @@
       src: "/tmp/k9s.tar.gz"
       dest: "/usr/local/bin"
       remote_src: yes
+    become: true
     when: not k9s_binary.stat.exists
 
   - name: Ensure k9s is executable
