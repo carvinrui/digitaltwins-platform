@@ -38,26 +38,28 @@
       state: started
       enabled: yes
     ignore_errors: yes
-  # Install k9s
+
   - name: Check if k9s is already installed
     ansible.builtin.stat:
-      path: "{{ ansible_env.HOME }}/.local/bin/k9s"
+      path: "/usr/local/bin/k9s"
     register: k9s_binary
-    ignore_errors: yes
-  - name: Install k9s via webinstall
-    ansible.builtin.shell: curl -sS https://webinstall.dev/k9s | bash
-    args:
-      creates: "{{ ansible_env.HOME}}/.local/bin/k9s"
-    become: false
+  - name: Download k9s
+    ansible.builtin.get_url:
+      url: "https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_amd64.tar.gz"
+      dest: "/tmp/k9s.tar.gz"
     when: not k9s_binary.stat.exists
-    ignore_errors: yes
-  - name: Add k9s to PATH in .bashrc
-    ansible.builtin.lineinfile:
-      path: "{{ ansible_env.HOME}}/.bashrc"
-      line: 'export PATH=$PATH:$HOME/.local/bin'
-      state: present
-    become: false
-    ignore_errors: yes
+
+  - name: Extract k9s
+    ansible.builtin.unarchive:
+      src: "/tmp/k9s.tar.gz"
+      dest: "/usr/local/bin"
+      remote_src: yes
+    when: not k9s_binary.stat.exists
+
+  - name: Ensure k9s is executable
+    ansible.builtin.file:
+      path: "/usr/local/bin/k9s"
+      mode: "0755"
   # Install Helm
   - name: Check if helm is already installed
     ansible.builtin.stat:
