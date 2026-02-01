@@ -2,6 +2,7 @@
 - name: VM setup(kubernetes,observability)
   gather_facts: false
   hosts: portal drai_mp drai_cc
+  become: true
 
   tasks:
   - name: Download k3s installation script
