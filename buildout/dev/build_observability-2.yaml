@@ -3,6 +3,9 @@
   gather_facts: false
   hosts: portal drai_mp drai_cc
   become: true
+  vars:
+    observability_dir: "./observability"
+
 
   tasks:
   - name: Download k3s installation script
