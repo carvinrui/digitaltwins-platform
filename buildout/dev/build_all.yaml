@@ -130,12 +130,12 @@
     args:
       chdir: ./digitaltwins-platform
 
-  - name: Read git checkout buildout
-    ansible.builtin.git:
-      repo: gendev:git/twins_buildout.git
-      dest: ./twins_buildout
-      force: yes
-      version: main
+  #- name: Read git checkout buildout
+  #  ansible.builtin.git:
+  #    repo: gendev:git/twins_buildout.git
+  #    dest: ./twins_buildout
+  #    force: yes
+  #    version: main
 
   # I don't understand why I need this next step, but it doesn't seem to get the host's DNS setup here
   # and hangs/times out when attempting to pull containers
