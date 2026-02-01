@@ -39,7 +39,7 @@
 
   - name: Add fetched public keys to localhost authorized_keys
     ansible.posix.authorized_key:
-      user: "ubuntu"
+      user: "root"
       state: present
       # Use the 'item' variable (the host name) in the lookup path
       key: "{{ lookup('file', '/tmp/fetched_keys_{{ item }}.pub') }}"
@@ -56,7 +56,7 @@
       path: .ssh/config
       block: |
         Host gendev
-            User ubuntu
+            User root
             Hostname 163.7.144.201
             StrictHostKeyChecking no
             UserKnownHostsFile /dev/null
